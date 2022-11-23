@@ -1,0 +1,2 @@
+# sample_wix_toolset_sequence
+WiX Toolsetでのインストーラサンプル。特にロールバックを含めた動作シーケンスの確認を重視する。
