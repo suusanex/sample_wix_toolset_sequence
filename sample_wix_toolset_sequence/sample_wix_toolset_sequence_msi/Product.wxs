@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="sample_wix_toolset_sequence_msi" Language="1041" Codepage='932' Version="1.0.0.0" Manufacturer="suusanex" UpgradeCode="3b06c617-44a2-4143-b963-44a47299347d">
+		<Package Id='*' Languages='1041' SummaryCodepage='932' InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<!--ダウングレード禁止（デフォルト値）で、同一バージョン間のアップデートを許可し、Product,PackageのIDを自動生成にする。
+		さらにリリースにおいて、バージョンは1～3番目のフィールドだけを使用する。
+		こうすることで、リリースされた同一バージョン同士のアップグレードは不可にしたままで、リリース前の同一バージョンの別ビルド同士のアップグレードを可能とする。-->
+		<!--アップグレード失敗の場合に消えてはならないソフトをインストールする想定であるため、afterInstallInitializeを指定することでアップグレード前バージョンのロールバックも行わせる。-->
+		<MajorUpgrade Schedule="afterInstallInitialize" AllowSameVersionUpgrades="yes" 
+		              DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate CompressionLevel="high" EmbedCab="yes"/>
+
+		<!--MSIに対して最低限のWiX標準UIを付加し、ローカライズされたエラーテキストを使用することで日本語化する。
+		この他に、プロジェクトのCultures to buildでja-JPを指定し、WiXインストール先からWiXUIExtensionクラスライブラリを参照する必要がある。-->
+		<UIRef Id="WixUI_Minimal" />
+		<UIRef Id="WixUI_ErrorProgressText" />
+
+		<Feature Id="ProductFeature" Title="sample_wix_toolset_sequence_msi" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+		
+		<Binary Id="CustomAction" SourceFile="$(var.sample_wix_toolset_sequence_ca.TargetDir)sample_wix_toolset_sequence_ca.CA.dll" />
+
+		<!--deferredでのロールバック可能な処理と、rollbackでのロールバック処理を、対にして定義する。-->
+		<!--InstallAndUpgradeFilesCustomActionに対しては実験として、独自プロパティと標準プロパティの情報を渡す-->
+		<CustomAction Id="InstallAndUpgradeFilesCustomAction"
+		              BinaryKey="CustomAction"
+		              DllEntry="InstallAndUpgradeFilesCustomAction"
+		              Execute="deferred"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="InstallAndUpgradeFilesCustomAction" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir]"/>
+		<CustomAction Id="InstallAndUpgradeFilesCustomActionRollback"
+		              BinaryKey="CustomAction"
+		              DllEntry="InstallAndUpgradeFilesCustomActionRollback"
+		              Execute="rollback"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="InstallAndUpgradeFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
+		
+					  
+		<CustomAction Id="InstallOnlyFilesCustomAction"
+		              BinaryKey="CustomAction"
+		              DllEntry="InstallOnlyFilesCustomAction"
+		              Execute="deferred"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="InstallOnlyFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		<CustomAction Id="InstallOnlyFilesCustomActionRollback"
+		              BinaryKey="CustomAction"
+		              DllEntry="InstallOnlyFilesCustomActionRollback"
+		              Execute="rollback"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="InstallOnlyFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="UninstallFilesCustomAction"
+		              BinaryKey="CustomAction"
+		              DllEntry="UninstallFilesCustomAction"
+		              Execute="deferred"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="UninstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		<CustomAction Id="UninstallFilesCustomActionRollback"
+		              BinaryKey="CustomAction"
+		              DllEntry="UninstallFilesCustomActionRollback"
+		              Execute="rollback"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="UninstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="UpgradingUninstallFilesCustomAction"
+		              BinaryKey="CustomAction"
+		              DllEntry="UpgradingUninstallFilesCustomAction"
+		              Execute="deferred"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="UpgradingUninstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		<CustomAction Id="UpgradingUninstallFilesCustomActionRollback"
+		              BinaryKey="CustomAction"
+		              DllEntry="UpgradingUninstallFilesCustomActionRollback"
+		              Execute="rollback"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="UpgradingUninstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="UpgradeInstallFilesCustomAction"
+		              BinaryKey="CustomAction"
+		              DllEntry="UpgradeInstallFilesCustomAction"
+		              Execute="deferred"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="UpgradeInstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		<CustomAction Id="UpgradeInstallFilesCustomActionRollback"
+		              BinaryKey="CustomAction"
+		              DllEntry="UpgradeInstallFilesCustomActionRollback"
+		              Execute="rollback"
+		              Impersonate="no"
+		              Return="check" />
+		<Property Id="UpgradeInstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
+
+		
+		<InstallExecuteSequence>
+
+			<!--インストール・アップグレードのどちらでも実行するアクション（プロパティ・ロールバック付き）-->
+			<Custom Action="InstallAndUpgradeFilesCustomActionRollback" After="InstallFiles">NOT REMOVE="ALL"</Custom>
+			<Custom Action="InstallAndUpgradeFilesCustomAction" After="InstallAndUpgradeFilesCustomActionRollback">NOT REMOVE="ALL"</Custom>			
+			
+			<!--インストールの場合だけ実行するアクション（プロパティ・ロールバック付き）-->
+			<Custom Action="InstallOnlyFilesCustomActionRollback" After="InstallFiles">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="InstallOnlyFilesCustomAction" After="InstallOnlyFilesCustomActionRollback">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
+
+			<!--アンインストール時にだけ実行するアクション（ロールバック付き）
+			※MajorUpgradeによる旧バージョンアンインストール処理の場合は実行せず、アンインストール操作の場合にだけ実行する-->
+			<Custom Action="UninstallFilesCustomActionRollback" After="InstallFiles">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UninstallFilesCustomAction" After="UninstallFilesCustomActionRollback">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			
+			<!--アップグレードによる旧バージョンアンインストール処理の場合だけ実行するアクション（ロールバック付き）
+			※アンインストール操作では実行しない-->
+			<Custom Action="UpgradingUninstallFilesCustomActionRollback" After="InstallFiles">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UpgradingUninstallFilesCustomAction" After="UpgradingUninstallFilesCustomActionRollback">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
+			
+			<!--アップグレードによる新バージョンインストール処理の場合だけ実行するアクション（ロールバック付き）-->
+			<Custom Action="UpgradeInstallFilesCustomActionRollback" After="InstallFiles">WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="UpgradeInstallFilesCustomAction" After="UpgradeInstallFilesCustomActionRollback">WIX_UPGRADE_DETECTED</Custom>
+			
+			
+		</InstallExecuteSequence>
+
+	</Product>
+
+	<Fragment>
+		<!--Directory Id="TempDir"と同じ場所を示す、環境変数を含むフルパス。カスタムアクションでは該当フォルダへこのパスでアクセスする。-->
+		<Property Id="PROPERTY_TEMP_DIR">
+			%AllUsersProfile%\sample_wix_toolset_sequence
+		</Property>
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="CommonAppDataFolder">
+				<Directory Id="TempDir" Name="sample_wix_toolset_sequence"/>
+			</Directory>
+			<Directory Id="ProgramFiles64Folder">
+				<Directory Id="INSTALLFOLDER" Name="sample_wix_toolset_sequence"/>
+			</Directory>
+		</Directory>
+
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="_README.md" Guid="2d258025-331b-4cf8-9718-70e5e96806dd" Win64="yes">
+				<File Id="_README.md" Name="README.md" DiskId="1" Source="..\..\README.md" KeyPath="yes" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

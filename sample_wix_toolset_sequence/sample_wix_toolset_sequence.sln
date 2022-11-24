@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "sample_wix_toolset_sequence_msi", "sample_wix_toolset_sequence_msi\sample_wix_toolset_sequence_msi.wixproj", "{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_wix_toolset_sequence_ca", "sample_wix_toolset_sequence_ca\sample_wix_toolset_sequence_ca.csproj", "{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Debug|x64.ActiveCfg = Debug|x64
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Debug|x64.Build.0 = Debug|x64
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Debug|x86.ActiveCfg = Debug|x86
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Debug|x86.Build.0 = Debug|x86
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Release|x64.ActiveCfg = Release|x64
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Release|x64.Build.0 = Release|x64
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Release|x86.ActiveCfg = Release|x86
+		{3E1DAAC7-8483-4574-9DF1-FED99C7AE89A}.Release|x86.Build.0 = Release|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Debug|x64.ActiveCfg = Debug|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Debug|x64.Build.0 = Debug|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Debug|x86.ActiveCfg = Debug|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Debug|x86.Build.0 = Debug|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Release|x64.ActiveCfg = Release|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Release|x64.Build.0 = Release|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Release|x86.ActiveCfg = Release|x86
+		{A72800EF-DF37-4EB4-A71A-4CABCEEC7420}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD24EF38-E827-4AEF-8644-63A7FB9892E1}
+	EndGlobalSection
+EndGlobal

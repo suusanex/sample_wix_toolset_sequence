@@ -1,0 +1,1 @@
+msiexec /i "%~dp0sample_wix_toolset_sequence_msi.msi" /L*V "%~dp0install.log"
