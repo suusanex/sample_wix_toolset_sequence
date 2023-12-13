@@ -27,10 +27,10 @@ namespace sample_wix_toolset_sequence_ca
         public static ActionResult InstallOrUpgradeOrUninstall(Session session)
         {
             var installTypeParams = string.Join(",",
-                $"InstallTypeUpgrade={session.CustomActionData["InstallTypeUpgrade"]}",
-                $"InstallTypeInstall={session.CustomActionData["InstallTypeInstall"]}",
-                $"InstallTypeUnInstallComplete={session.CustomActionData["InstallTypeUnInstallComplete"]}",
-                $"InstallTypeUninstallForUpgrade={session.CustomActionData["InstallTypeUninstallForUpgrade"]}"
+                $"InstallTypeUpgrade={session.CustomActionData["ITU"]}",
+                $"InstallTypeInstall={session.CustomActionData["ITI"]}",
+                $"InstallTypeUnInstallComplete={session.CustomActionData["ITUC"]}",
+                $"InstallTypeUninstallForUpgrade={session.CustomActionData["ITUU"]}"
             );
             session.Log($"Begin InstallOrUpgradeOrUninstall, installTypeParams={installTypeParams}, TempDir={session.CustomActionData["TempDir"]}, ProductVersion={session.CustomActionData["ProductVersion"]}, SourceDir={session.CustomActionData["SourceDir"]}, InstallFile={InstallFileTrace()}");
 
@@ -41,10 +41,10 @@ namespace sample_wix_toolset_sequence_ca
         public static ActionResult InstallOrUpgradeOrUninstallRollback(Session session)
         {
             var installTypeParams = string.Join(",",
-                $"InstallTypeUpgrade={session.CustomActionData["InstallTypeUpgrade"]}",
-                $"InstallTypeInstall={session.CustomActionData["InstallTypeInstall"]}",
-                $"InstallTypeUnInstallComplete={session.CustomActionData["InstallTypeUnInstallComplete"]}",
-                $"InstallTypeUninstallForUpgrade={session.CustomActionData["InstallTypeUninstallForUpgrade"]}"
+                $"InstallTypeUpgrade={session.CustomActionData["ITU"]}",
+                $"InstallTypeInstall={session.CustomActionData["ITI"]}",
+                $"InstallTypeUnInstallComplete={session.CustomActionData["ITUC"]}",
+                $"InstallTypeUninstallForUpgrade={session.CustomActionData["ITUU"]}"
             );
             session.Log($"Begin InstallOrUpgradeOrUninstallRollback, installTypeParams={installTypeParams}, ProductVersion={session.CustomActionData["ProductVersion"]}, InstallFile={InstallFileTrace()}");
 

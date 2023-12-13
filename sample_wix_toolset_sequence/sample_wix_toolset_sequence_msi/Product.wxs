@@ -30,7 +30,7 @@
 
 		<!--deferredでのロールバック可能な処理と、rollbackでのロールバック処理を、対にして定義する。-->
 		<CustomAction Id="InstallOrUpgradeOrUninstall.SetProperty" Return="check"
-		              Property="InstallOrUpgradeOrUninstall" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir];InstallTypeUpgrade=[INSTALL_TYPE_UPGRADE];InstallTypeInstall=[INSTALL_TYPE_INSTALL];InstallTypeUnInstallComplete=[INSTALL_TYPE_UNINSTALL_COMPLETE];InstallTypeUninstallForUpgrade=[INSTALL_TYPE_UNINSTALL_FOR_UPGRADE]" />
+		              Property="InstallOrUpgradeOrUninstall" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir];ITU=[INSTALL_TYPE_UPGRADE];ITI=[INSTALL_TYPE_INSTALL];ITUC=[INSTALL_TYPE_UNINSTALL_COMPLETE];ITUU=[INSTALL_TYPE_UNINSTALL_FOR_UPGRADE]" />
 		<CustomAction Id="InstallOrUpgradeOrUninstall"
 		              BinaryKey="CustomAction"
 		              DllEntry="InstallOrUpgradeOrUninstall"
@@ -39,7 +39,7 @@
 		              Return="check" />
 		
 		<CustomAction Id="InstallOrUpgradeOrUninstallRollback.SetProperty" Return="check"
-		              Property="InstallOrUpgradeOrUninstallRollback" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir];InstallTypeUpgrade=[INSTALL_TYPE_UPGRADE];InstallTypeInstall=[INSTALL_TYPE_INSTALL];InstallTypeUnInstallComplete=[INSTALL_TYPE_UNINSTALL_COMPLETE];InstallTypeUninstallForUpgrade=[INSTALL_TYPE_UNINSTALL_FOR_UPGRADE]" />
+		              Property="InstallOrUpgradeOrUninstallRollback" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir];ITU=[INSTALL_TYPE_UPGRADE];ITI=[INSTALL_TYPE_INSTALL];ITUC=[INSTALL_TYPE_UNINSTALL_COMPLETE];ITUU=[INSTALL_TYPE_UNINSTALL_FOR_UPGRADE]" />
 		<CustomAction Id="InstallOrUpgradeOrUninstallRollback"
 		              BinaryKey="CustomAction"
 		              DllEntry="InstallOrUpgradeOrUninstallRollback"
