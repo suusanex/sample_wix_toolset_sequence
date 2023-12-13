@@ -24,106 +24,133 @@
 
 		<!--deferredでのロールバック可能な処理と、rollbackでのロールバック処理を、対にして定義する。-->
 		<!--InstallAndUpgradeFilesCustomActionに対しては実験として、独自プロパティと標準プロパティの情報を渡す-->
+		<CustomAction Id="InstallAndUpgradeFilesCustomAction.SetProperty" Return="check"
+		              Property="InstallAndUpgradeFilesCustomAction" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir]" />
 		<CustomAction Id="InstallAndUpgradeFilesCustomAction"
 		              BinaryKey="CustomAction"
 		              DllEntry="InstallAndUpgradeFilesCustomAction"
 		              Execute="deferred"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="InstallAndUpgradeFilesCustomAction" Value="TempDir=[PROPERTY_TEMP_DIR];ProductVersion=[ProductVersion];SourceDir=[SourceDir]"/>
+		
+		<CustomAction Id="InstallAndUpgradeFilesCustomActionRollback.SetProperty" Return="check"
+		              Property="InstallAndUpgradeFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="InstallAndUpgradeFilesCustomActionRollback"
 		              BinaryKey="CustomAction"
 		              DllEntry="InstallAndUpgradeFilesCustomActionRollback"
 		              Execute="rollback"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="InstallAndUpgradeFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
-		
-					  
+
+
+		<CustomAction Id="InstallOnlyFilesCustomAction.SetProperty" Return="check"
+		              Property="InstallOnlyFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="InstallOnlyFilesCustomAction"
 		              BinaryKey="CustomAction"
 		              DllEntry="InstallOnlyFilesCustomAction"
 		              Execute="deferred"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="InstallOnlyFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="InstallOnlyFilesCustomActionRollback.SetProperty" Return="check"
+		              Property="InstallOnlyFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="InstallOnlyFilesCustomActionRollback"
 		              BinaryKey="CustomAction"
 		              DllEntry="InstallOnlyFilesCustomActionRollback"
 		              Execute="rollback"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="InstallOnlyFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
 		
+		
+		<CustomAction Id="UninstallFilesCustomAction.SetProperty" Return="check"
+		              Property="UninstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="UninstallFilesCustomAction"
 		              BinaryKey="CustomAction"
 		              DllEntry="UninstallFilesCustomAction"
 		              Execute="deferred"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="UninstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="UninstallFilesCustomActionRollback.SetProperty" Return="check"
+		              Property="UninstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="UninstallFilesCustomActionRollback"
 		              BinaryKey="CustomAction"
 		              DllEntry="UninstallFilesCustomActionRollback"
 		              Execute="rollback"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="UninstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
 		
+		
+		<CustomAction Id="UpgradingUninstallFilesCustomAction.SetProperty" Return="check"
+		              Property="UpgradingUninstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="UpgradingUninstallFilesCustomAction"
 		              BinaryKey="CustomAction"
 		              DllEntry="UpgradingUninstallFilesCustomAction"
 		              Execute="deferred"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="UpgradingUninstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="UpgradingUninstallFilesCustomActionRollback.SetProperty" Return="check"
+					           Property="UpgradingUninstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="UpgradingUninstallFilesCustomActionRollback"
 		              BinaryKey="CustomAction"
 		              DllEntry="UpgradingUninstallFilesCustomActionRollback"
 		              Execute="rollback"
 		              Impersonate="no"
-		              Return="check" />
-		<Property Id="UpgradingUninstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
+		              Return="check" />	
 		
+		<CustomAction Id="UpgradeInstallFilesCustomAction.SetProperty" Return="check"
+					           Property="UpgradeInstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="UpgradeInstallFilesCustomAction"
 		              BinaryKey="CustomAction"
 		              DllEntry="UpgradeInstallFilesCustomAction"
 		              Execute="deferred"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="UpgradeInstallFilesCustomAction" Value="ProductVersion=[ProductVersion]"/>		
+		
+		<CustomAction Id="UpgradeInstallFilesCustomActionRollback.SetProperty" Return="check"
+					  		 Property="UpgradeInstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>
 		<CustomAction Id="UpgradeInstallFilesCustomActionRollback"
 		              BinaryKey="CustomAction"
 		              DllEntry="UpgradeInstallFilesCustomActionRollback"
 		              Execute="rollback"
 		              Impersonate="no"
 		              Return="check" />
-		<Property Id="UpgradeInstallFilesCustomActionRollback" Value="ProductVersion=[ProductVersion]"/>		
 
 		
 		<InstallExecuteSequence>
 
 			<!--インストール・アップグレードのどちらでも実行するアクション（プロパティ・ロールバック付き）-->
-			<Custom Action="InstallAndUpgradeFilesCustomActionRollback" After="InstallFiles">NOT REMOVE="ALL"</Custom>
-			<Custom Action="InstallAndUpgradeFilesCustomAction" After="InstallAndUpgradeFilesCustomActionRollback">NOT REMOVE="ALL"</Custom>			
+			<Custom Action="InstallAndUpgradeFilesCustomActionRollback.SetProperty" After="InstallFiles">NOT REMOVE="ALL"</Custom>
+			<Custom Action="InstallAndUpgradeFilesCustomActionRollback" After="InstallAndUpgradeFilesCustomActionRollback.SetProperty">NOT REMOVE="ALL"</Custom>
+			<Custom Action="InstallAndUpgradeFilesCustomAction.SetProperty" After="InstallAndUpgradeFilesCustomActionRollback">NOT REMOVE="ALL"</Custom>		
+			<Custom Action="InstallAndUpgradeFilesCustomAction" After="InstallAndUpgradeFilesCustomAction.SetProperty">NOT REMOVE="ALL"</Custom>			
 			
 			<!--インストールの場合だけ実行するアクション（プロパティ・ロールバック付き）-->
-			<Custom Action="InstallOnlyFilesCustomActionRollback" After="InstallFiles">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
-			<Custom Action="InstallOnlyFilesCustomAction" After="InstallOnlyFilesCustomActionRollback">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="InstallOnlyFilesCustomActionRollback.SetProperty" After="InstallFiles">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="InstallOnlyFilesCustomActionRollback" After="InstallOnlyFilesCustomActionRollback.SetProperty">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="InstallOnlyFilesCustomAction.SetProperty" After="InstallOnlyFilesCustomActionRollback">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="InstallOnlyFilesCustomAction" After="InstallOnlyFilesCustomAction.SetProperty">NOT REMOVE="ALL" AND NOT WIX_UPGRADE_DETECTED</Custom>
 
 			<!--アンインストール時にだけ実行するアクション（ロールバック付き）
 			※MajorUpgradeによる旧バージョンアンインストール処理の場合は実行せず、アンインストール操作の場合にだけ実行する-->
-			<Custom Action="UninstallFilesCustomActionRollback" After="InstallFiles">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
-			<Custom Action="UninstallFilesCustomAction" After="UninstallFilesCustomActionRollback">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UninstallFilesCustomActionRollback.SetProperty" After="InstallFiles">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UninstallFilesCustomActionRollback" After="UninstallFilesCustomActionRollback.SetProperty">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UninstallFilesCustomAction.SetProperty" After="UninstallFilesCustomActionRollback">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UninstallFilesCustomAction" After="UninstallFilesCustomAction.SetProperty">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
 			
 			<!--アップグレードによる旧バージョンアンインストール処理の場合だけ実行するアクション（ロールバック付き）
 			※アンインストール操作では実行しない-->
-			<Custom Action="UpgradingUninstallFilesCustomActionRollback" After="InstallFiles">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
-			<Custom Action="UpgradingUninstallFilesCustomAction" After="UpgradingUninstallFilesCustomActionRollback">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UpgradingUninstallFilesCustomActionRollback.SetProperty" After="InstallFiles">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UpgradingUninstallFilesCustomActionRollback" After="UpgradingUninstallFilesCustomActionRollback.SetProperty">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UpgradingUninstallFilesCustomAction.SetProperty" After="UpgradingUninstallFilesCustomActionRollback">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action="UpgradingUninstallFilesCustomAction" After="UpgradingUninstallFilesCustomAction.SetProperty">REMOVE="ALL" AND UPGRADINGPRODUCTCODE</Custom>
 			
 			<!--アップグレードによる新バージョンインストール処理の場合だけ実行するアクション（ロールバック付き）-->
-			<Custom Action="UpgradeInstallFilesCustomActionRollback" After="InstallFiles">WIX_UPGRADE_DETECTED</Custom>
-			<Custom Action="UpgradeInstallFilesCustomAction" After="UpgradeInstallFilesCustomActionRollback">WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="UpgradeInstallFilesCustomActionRollback.SetProperty" After="InstallFiles">WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="UpgradeInstallFilesCustomActionRollback" After="UpgradeInstallFilesCustomActionRollback.SetProperty">WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="UpgradeInstallFilesCustomAction.SetProperty" After="UpgradeInstallFilesCustomActionRollback">WIX_UPGRADE_DETECTED</Custom>
+			<Custom Action="UpgradeInstallFilesCustomAction" After="UpgradeInstallFilesCustomAction.SetProperty">WIX_UPGRADE_DETECTED</Custom>
 			
 			
 		</InstallExecuteSequence>
