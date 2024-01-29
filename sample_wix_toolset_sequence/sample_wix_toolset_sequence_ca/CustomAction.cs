@@ -32,7 +32,7 @@ namespace sample_wix_toolset_sequence_ca
                 $"InstallTypeUnInstallComplete={session.CustomActionData["ITUC"]}",
                 $"InstallTypeUninstallForUpgrade={session.CustomActionData["ITUU"]}"
             );
-            session.Log($"Begin InstallOrUpgradeOrUninstall, installTypeParams={installTypeParams}, TempDir={session.CustomActionData["TempDir"]}, ProductVersion={session.CustomActionData["ProductVersion"]}, SourceDir={session.CustomActionData["SourceDir"]}, InstallFile={InstallFileTrace()}");
+            session.Log($"Begin InstallOrUpgradeOrUninstall, UILevel={session.CustomActionData["UILevel"]}, installTypeParams={installTypeParams}, TempDir={session.CustomActionData["TempDir"]}, ProductVersion={session.CustomActionData["ProductVersion"]}, SourceDir={session.CustomActionData["SourceDir"]}, InstallFile={InstallFileTrace()}");
 
             return ActionResult.Success;
         }
@@ -46,7 +46,7 @@ namespace sample_wix_toolset_sequence_ca
                 $"InstallTypeUnInstallComplete={session.CustomActionData["ITUC"]}",
                 $"InstallTypeUninstallForUpgrade={session.CustomActionData["ITUU"]}"
             );
-            session.Log($"Begin InstallOrUpgradeOrUninstallRollback, installTypeParams={installTypeParams}, ProductVersion={session.CustomActionData["ProductVersion"]}, InstallFile={InstallFileTrace()}");
+            session.Log($"Begin InstallOrUpgradeOrUninstallRollback, UILevel={session.CustomActionData["UILevel"]}, installTypeParams={installTypeParams}, ProductVersion={session.CustomActionData["ProductVersion"]}, InstallFile={InstallFileTrace()}");
 
             return ActionResult.Success;
         }
